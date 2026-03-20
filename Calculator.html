@@ -1,0 +1,180 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Calculator</title>
+</head>
+<body>
+    <div class="calculator">
+       <input type="text" id="display" class="calculator-screen" disabled />
+        <div class="calculator-keys">
+            <button type="button" onclick="Operator('+')" class="operator" >+</button>
+            <button type="button" onclick="Operator('-')" class="operator" >-</button>
+            <button type="button" onclick="Operator('*')" class="operator" >*</button>
+            <button type="button" onclick="Operator('/')" class="operator" >/</button>
+            <button type="button" onclick="Number('9')" >9</button>
+            <button type="button" onclick="Number('8')" >8</button>
+            <button type="button" onclick="Number('7')" >7</button>
+            <button type="button" onclick="Number('6')" >6</button>
+            <button type="button" onclick="Number('5')" >5</button>
+            <button type="button" onclick="Number('4')" >4</button>
+            <button type="button" onclick="Number('3')" >3</button>
+            <button type="button" onclick="Number('2')" >2</button>
+            <button type="button" onclick="Number('1')" >1</button>
+            <button type="button" onclick="Number('0')" >0</button>
+            <button type="button" class="decimal" onclick="Number('.')">.</button>
+            <button type="button" class="all-clear" onclick="clearDisplay()"  >AC</button>
+            <button class="equal-sign" onclick="Result()">=</button>
+            <button type="button" class="equal-sign"onclick="deleteitems()" >C</button>
+
+        </div>
+    </div>
+    <style>
+        .body {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    background-color:#fff;
+    font-family: 'Arial', sans-serif;
+}
+
+.calculator {
+    border:1px solid black ;
+    border-radius: 10px;
+    width: 320px;
+    background-color:#252525;
+}
+
+ .calculator-screen {
+    width: 260px;
+    height: 80px;
+    border: none;
+    background-color:#fff;
+    color:black;
+    font-size: 3.5rem;
+    text-align: right;
+    padding: 0px 20px;
+    border-radius: 10px 10px 10px 10px;
+    margin: 8px 8px 8px 8px;
+    overflow: hidden;
+    white-space:nowrap;
+    text-overflow: ellipsis;
+    
+ } 
+
+.calculator-keys {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 10px;
+    padding: 20px;
+}
+
+button {
+    height: 60px;
+    font-size: 1.5rem;
+    border: none;
+    border-radius: 10px;
+    background-color:#fff;
+}
+
+button:hover {
+    background-color:#333;
+}
+
+.equal-sign {
+    background-color:#fff;
+    color:black;
+    grid-column: span 2;
+}
+
+.equal-sign:hover {
+    background-color:#333;
+}
+
+.all-clear {
+    background-color:#333;
+    color: white;
+}
+
+.all-clear:hover {
+    background-color:#333;
+}
+
+.decimal {
+    background-color:#fff;
+    color: #333;
+}
+
+.decimal:hover {
+    background-color:#333;
+}
+
+</style>
+<script>
+let input = '';
+let equation = '';
+function clearDisplay() {
+    document.getElementById("display").value = "";
+    input = '';
+    equation = '';
+    adjustFontSize();
+}
+function deleteitems() {
+    let display = document.getElementById("display");
+    input = input.slice(0, -1);
+    equation = equation.slice(0, -1);
+    display.value = display.value.slice(0, -1);
+    adjustFontSize();
+}
+function Number(number) {
+    let display = document.getElementById("display");
+    input += number;
+    equation += number;
+    display.value = input;
+    adjustFontSize();
+}
+function Operator(operator) {
+    let display = document.getElementById("display");
+    if (input !== '') {
+        equation += operator;
+        display.value += operator;
+        input = '';
+        adjustFontSize();
+    }
+}
+function Result() {
+    try {
+        let display = document.getElementById("display");
+
+        let result = eval(equation);
+        if (result.toString().length > 8 || Math.abs(result) > 1e9) {
+            let formattedResult = result.toExponential(8);
+            formattedResult = formattedResult.replace('+', ''); 
+            display.value = formattedResult;
+        } else {
+            display.value = result;
+        }
+        input = result.toString();
+        equation= result.toString();
+        adjustFontSize();
+    } catch (error) {
+        document.getElementById("display").value = "Error";
+    }
+}
+function adjustFontSize() {
+    let display = document.getElementById("display");
+    let length = display.value.length;
+
+    if (length > 15) {
+        display.style.fontSize = '16px'; 
+    } else if (length > 10) {
+        display.style.fontSize = '20px'; 
+    } else {
+        display.style.fontSize = '24px'; 
+    }
+}
+    </script>
+</body>
+</html>

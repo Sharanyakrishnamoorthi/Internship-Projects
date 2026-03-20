@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Increment and Decrement Example</title>
+</head>
+<body style="text-align:center";>
+    <h1>Counter App</h1>
+    <button onclick="decrement()" class="green-button">-</button>
+    <span id="value" class="pink-button" >0</span>
+    <button onclick="increment()" class="green-button">+</button><br/><br/>
+    <button onclick="reset()" class="green-button">Reset</button>
+
+    <script>
+        function increment() {
+            let currentValue = (document.getElementById('value').innerText);
+if(currentValue>=0 && currentValue<100 ){
+            currentValue++;
+            document.getElementById('value').innerText = currentValue;
+}
+        }
+
+
+        function decrement() {
+            let currentValue = (document.getElementById('value').innerText);
+if(currentValue>0){
+            currentValue--;
+            document.getElementById('value').innerText = currentValue;
+        }
+}
+        function reset(){
+            document.getElementById('value').innerText = 0;
+}
+    </script>
+</body>
+<style>
+        .green-button{
+            background-color:darkgreen;
+            width: 80px;
+            height: 40px;
+            border-radius: 10px;
+            color: #ffffff;
+            font-size: 16px;
+        }
+        .pink-button{
+            background-color:bisque;
+            width: 80px;
+            height: 40px;
+            border-radius: 11px;
+            padding: 11px  40px;
+            margin: 0 10px;
+            font-size: 20px;
+        }
+    </style>
+
+</html>
