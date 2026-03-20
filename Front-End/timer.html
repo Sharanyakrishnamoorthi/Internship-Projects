@@ -1,0 +1,145 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Event Countdown Timer</title>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <style>
+        body, html {
+            height: 100%;
+            margin: 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            flex-direction: column;
+            background-color: #282c34;
+            color: #61dafb;
+            font-family: 'Verdana', sans-serif;
+        }
+
+        #timer-container {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            font-size: 42px;
+            font-weight: bold;
+        }
+
+        .time-box {
+            width: 60px;
+            height: 70px;
+            margin: 8px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            background-color: #333;
+            color: #61dafb;
+            border: 3px solid #61dafb;
+            border-radius: 8px;
+        }
+
+        .colon {
+            color: #61dafb;
+            margin: 0 8px;
+            font-size: 42px;
+            display: flex;
+            align-items: center;
+        }
+
+        .group {
+            display: flex;
+        }
+
+        #description {
+            margin-top: 25px;
+            font-size: 22px;
+            text-align: center;
+            color: #fff;
+        }
+    </style>
+</head>
+<body>
+    <div id="timer-container">
+        <div class="group" id="days"></div>
+        <div class="colon">:</div>
+        <div class="group" id="hours"></div>
+        <div class="colon">:</div>
+        <div class="group" id="minutes"></div>
+        <div class="colon">:</div>
+        <div class="group" id="seconds"></div>
+    </div>
+    <div id="description">
+    </div>
+
+    <script>
+        $(document).ready(function() {
+            var eventEndTime = new Date();
+            eventEndTime.setDate(eventEndTime.getDate() + 10);
+
+            function updateCountdown() {
+                var currentTime = new Date();
+                var timeRemaining = eventEndTime - currentTime; 
+                
+            
+                var days = Math.floor(timeRemaining / (1000 * 60 * 60 * 24));
+                var hours = Math.floor((timeRemaining % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+                var minutes = Math.floor((timeRemaining % (1000 * 60 * 60)) / (1000 * 60));
+                var seconds = Math.floor((timeRemaining % (1000 * 60)) / 1000);
+
+                
+                var daysStr = days.toString().padStart(2, '0');
+                var hoursStr = hours.toString().padStart(2, '0');
+                var minutesStr = minutes.toString().padStart(2, '0');
+                var secondsStr = seconds.toString().padStart(2, '0');
+
+                
+                updateDigits('#days', daysStr);
+                updateDigits('#hours', hoursStr);
+                updateDigits('#minutes', minutesStr);
+                updateDigits('#seconds', secondsStr);
+                
+                
+                updateDescription(days, hours, minutes, seconds);
+                
+                
+                if (timeRemaining <= 0) {
+                    clearInterval(countdownInterval);
+                    updateDigits('#days', '00');
+                    updateDigits('#hours', '00');
+                    updateDigits('#minutes', '00');
+                    updateDigits('#seconds', '00');
+                    $('#description').text('The event has started!');
+                }
+            }
+
+            
+            function updateDigits(selector, value) {
+                var group = $(selector);
+                group.empty(); 
+                
+                
+                for (var i = 0; i < value.length; i++) {
+                    group.append('<div class="time-box">' + value[i] + '</div>');
+                }
+            }
+
+            
+            function updateDescription(days, hours, minutes, seconds) {
+                var daysText = days + ' day' + (days !== 1 ? 's' : '');
+                var hoursText = hours + ' hour' + (hours !== 1 ? 's' : '');
+                var minutesText = minutes + ' minute' + (minutes !== 1 ? 's' : '');
+                var secondsText = seconds + ' second' + (seconds !== 1 ? 's' : '');
+                
+                $('#description').text(daysText + ', ' + hoursText + ', ' + minutesText + ', and ' + secondsText + ' left to 10 days from now!');
+            }
+
+            
+            var countdownInterval = setInterval(updateCountdown, 1000);
+
+            
+            updateCountdown();
+        });
+    </script>
+</body>
+</html>
